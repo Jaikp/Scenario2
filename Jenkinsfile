@@ -1,12 +1,8 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3'
-    }
-
     environment {
-        IMAGE_NAME = 'jaikp0/java-rest-api'
+        IMAGE_NAME = 'jaikp/java-rest-api'
     }
 
     stages {
@@ -39,6 +35,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                sh 'docker ps -q --filter "ancestor=$IMAGE_NAME" | xargs -r docker stop || true'
                 sh 'docker run -d -p 8080:8080 $IMAGE_NAME'
             }
         }
