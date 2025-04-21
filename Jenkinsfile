@@ -8,9 +8,10 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/Jaikp/Scenario2.git'
+                git branch: 'main', url: 'https://github.com/Jaikp/Scenario2.git'
             }
         }
+
 
         stage('Build & Test') {
             steps {
