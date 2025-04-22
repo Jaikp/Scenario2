@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.8.7-openjdk-17'
+            image 'maven:3.8.7-eclipse-temurin-17' // ✅ fixed image
             args '-v /root/.m2:/root/.m2'
         }
     }
@@ -16,7 +16,6 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Jaikp/Scenario2.git'
             }
         }
-
 
         stage('Build & Test') {
             steps {
