@@ -1,6 +1,6 @@
 pipeline {
-    agent any  // use default Jenkins node (ensure it has Docker installed)
-    
+    agent any
+
     environment {
         IMAGE_NAME = 'jaikp0/java-rest-api'
     }
@@ -13,8 +13,14 @@ pipeline {
         }
 
         stage('Build & Test') {
+            agent {
+                docker {
+                    image 'maven:3.8.7-eclipse-temurin-17'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean compile'
             }
         }
 
@@ -26,7 +32,11 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USERNAME',
+                    passwordVariable: 'DOCKER_PASSWORD'
+                )]) {
                     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                     sh 'docker push $IMAGE_NAME'
                 }
