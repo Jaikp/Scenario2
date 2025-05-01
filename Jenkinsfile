@@ -1,11 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.7-eclipse-temurin-17'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
-
+    agent any  // use default Jenkins node (ensure it has Docker installed)
+    
     environment {
         IMAGE_NAME = 'jaikp0/java-rest-api'
     }
