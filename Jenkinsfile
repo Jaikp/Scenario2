@@ -46,7 +46,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker ps -q --filter "ancestor=$IMAGE_NAME" | xargs -r docker stop || true'
-                sh 'docker run -d -p 8080:8080 $IMAGE_NAME'
+                sh 'docker run -d -p 8081:8081 $IMAGE_NAME'
             }
         }
     }
