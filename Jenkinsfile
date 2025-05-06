@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = 'jaikp0/java-rest-api'
     }
 
+
     stages {
         stage('Clone') {
             steps {
